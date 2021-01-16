@@ -86,7 +86,7 @@ class  App extends React.Component {
       let { onDragStart, onDragEnd, cancelSelect,onActiveSelect } = this;
       return (
           <div>
-            <span className="main-title">🦄🌈 <a  href="https://github.com/yoyofx/yoyogo">yoyofx/yoyogo</a> </span>
+            <span className="main-title">🦄🌈 WeTodo <a  href="https://github.com/yoyofx/yoyogo">yoyofx/yoyogo</a> </span>
             <div className="task-wrapper">
                 {
                     Object.keys(global.constants.STATUS_CODE).map(status => 
