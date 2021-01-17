@@ -46,7 +46,7 @@ class  App extends React.Component {
     
     var item = {
       id: tasks.length ,
-      status: global.constants.STATUS_PROCESSING,
+      status: status,
       content: '',
       title: '',
       editable: true
