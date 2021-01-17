@@ -70,7 +70,7 @@ class TaskItem extends React.Component {
 
 
     render() {
-        let { id, title, point, content, active, onDragEnd } = this.props;
+        let { id, title, content, active, onDragEnd } = this.props;
         return (
             <div 
                 onDragStart={this.handleDragStart}

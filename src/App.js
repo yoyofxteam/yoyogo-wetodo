@@ -83,7 +83,7 @@ class  App extends React.Component {
   
   render() {
       let { tasks, activeId } = this.state;
-      let { onDragStart, onDragEnd, cancelSelect,onActiveSelect } = this;
+      let { onDragStart, cancelSelect,onActiveSelect } = this;
       return (
           <div>
             <span className="main-title">🦄🌈 WeTodo <a  href="https://github.com/yoyofx/yoyogo">yoyofx/yoyogo</a> </span>
