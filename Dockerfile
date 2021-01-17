@@ -1,4 +1,22 @@
-FROM ccr.ccs.tencentyun.com/easypass-chehou/chehou-nginxbase:v1.0.0
+FROM nginxinc/nginx-unprivileged:1.19
+
+USER 0
+
+# Modify timezone
+ENV TZ=Asia/Shanghai
+
+RUN apt-get update; \
+    apt-get install -y \
+        vim \
+        curl \
+        ca-certificates && \
+        rm -rf /var/lib/apt/lists/*
+
+
+# aliyun mirror
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
+    sed -i 's http://.*.debian.org http://mirrors.aliyun.com g' /etc/apt/sources.list
+    
 
 COPY build/ /usr/share/nginx/html/
 COPY ./default.conf /etc/nginx/conf.d/default.conf
