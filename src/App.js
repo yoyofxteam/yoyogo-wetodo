@@ -8,37 +8,31 @@ let tasks = [{
   status: global.constants.STATUS_TODO,
   content: '每周七天阅读五次，每次阅读完要做100字的读书笔记',
   title: '小夏',
-  point: 10
 }, {
   id: 1,
   status: global.constants.STATUS_TODO,
   content: '每周七天健身4次，每次健身时间需要大于20分钟',
   title: '橘子🍊',
-  point: 5
 }, {
   id: 2,
   status: global.constants.STATUS_TODO,
   content: '单词*100',
   title: '┑(￣Д ￣)┍',
-  point: 2
 }, {
   id: 3,
   status: global.constants.STATUS_TODO,
   content: '单词*150',
   title: '┑(￣Д ￣)┍',
-  point: 2
 }, {
   id: 4,
   status: global.constants.STATUS_TODO,
   content: '单词*200',
   title: '┑(￣Д ￣)┍',
-  point: 2
 }, {
   id: 5,
   status: global.constants.STATUS_TODO,
   content: '单词*250',
   title: '┑(￣Д ￣)┍',
-  point: 2
 }]
 
 class  App extends React.Component {
@@ -46,9 +40,23 @@ class  App extends React.Component {
       tasks: tasks,
       activeId: null
   }
-  /**
-   * 传入被拖拽任务项的 id
-   */
+
+  addNote = (status) => {
+    console.log(status)
+    
+    var item = {
+      id: tasks.length ,
+      status: global.constants.STATUS_PROCESSING,
+      content: '',
+      title: '',
+    }
+    tasks.push(item)
+    this.setState({
+      tasks: tasks
+    })
+    console.log(tasks)
+  }
+
   onDragStart = (id) => {
       this.setState({
           activeId: id
@@ -56,6 +64,7 @@ class  App extends React.Component {
   }
 
   onActiveSelect = (id) => {
+    console.log("select")
     this.setState({
         activeId: id
     })
@@ -80,6 +89,8 @@ class  App extends React.Component {
           activeId: null
       })
   }
+
+  
   
   render() {
       let { tasks, activeId } = this.state;
@@ -93,6 +104,7 @@ class  App extends React.Component {
                         <TaskCol 
                             status={status} 
                             key={status} 
+                            addNote={this.addNote}
                             dragTo={this.dragTo}
                             canDragIn={activeId != null && tasks[activeId].status !== status}>
                             { tasks.filter(t => t.status === status).map(t => 

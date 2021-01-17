@@ -7,6 +7,12 @@ class TaskCol extends React.Component {
     state = {
         in: false
     }
+
+    handleAddNote = (e) => {
+        e.preventDefault();
+        this.props.addNote(this.props.status);
+    }
+
     handleDragEnter = (e) => {
         e.preventDefault();
         if (this.props.canDragIn) {
@@ -49,7 +55,7 @@ class TaskCol extends React.Component {
                 <header className="col-header">
                 <span className="col-header-point">{children.length}</span>
                     {global.constants.STATUS_CODE[status]}
-                <span className="col-header-adder">+</span>
+                <span className="col-header-adder" onClick={this.handleAddNote}>+</span>
                 </header>
                 <main className={'col-main' + (this.state.in ? ' active' : '')}>
                     {children}
