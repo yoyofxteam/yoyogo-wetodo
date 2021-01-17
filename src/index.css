@@ -54,7 +54,7 @@ html,body,#root{
   color: #ffff;
 }
 
-.item-header-point {
+/* .item-header-point {
   background: #ccc;
   float: right;
   padding: 0 4px;
@@ -62,6 +62,43 @@ html,body,#root{
   text-align: center;
   color: #fff;
   border-radius: 50%;
+} */
+
+.item-note-textarea {
+  margin: 5px;
+  height: 78px;
+  resize: vertical;
+  width: 92%;
+  padding-top: 12px;
+  padding-left: 12px;
+  font-size: 14px;
+  color:white;
+  background-color: #0d1117;
+  border: 0px solid;
+  border-radius: 6px;
+  outline:none;
+}
+
+.btn-primary {
+  margin: 6px;
+  width: 125px;
+  height: 25px;
+  color:white;
+  background-color: #238636;
+  border-color: #49bb5d;
+  border-radius: 6px;
+  outline:none;
+}
+
+.btn-blue {
+  margin: 6px;
+  width: 125px;
+  height: 25px;
+  color:white;
+  background-color: #232425;
+  border-color: #363434;
+  border-radius: 6px;
+  outline:none;
 }
 
 .col-header-adder {

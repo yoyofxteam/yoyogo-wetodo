@@ -49,10 +49,12 @@ class  App extends React.Component {
       status: global.constants.STATUS_PROCESSING,
       content: '',
       title: '',
+      editable: true
     }
     tasks.push(item)
     this.setState({
-      tasks: tasks
+      tasks: tasks,
+      activeId: item.id
     })
     console.log(tasks)
   }
@@ -112,6 +114,7 @@ class  App extends React.Component {
                                     key={t.id}
                                     active={t.id === activeId}
                                     id={t.id}
+                                    editable={t.editable}
                                     content={t.content} 
                                     point={t.point} 
                                     title={t.title}

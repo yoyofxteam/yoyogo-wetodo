@@ -50,8 +50,7 @@ class TaskCol extends React.Component {
                 onDragLeave={this.handleDragLeave}
                 onDragOver={this.handleDragEnter}
                 onDrop={this.handleDrop}
-                draggable="true"
-            >
+                draggable="true" >
                 <header className="col-header">
                 <span className="col-header-point">{children.length}</span>
                     {global.constants.STATUS_CODE[status]}
@@ -76,7 +75,7 @@ class TaskItem extends React.Component {
 
 
     render() {
-        let { id, title, content, active, onDragEnd } = this.props;
+        let { id, title, content,editable ,active, onDragEnd } = this.props;
         return (
             <div 
                 onDragStart={this.handleDragStart}
@@ -86,10 +85,23 @@ class TaskItem extends React.Component {
                 className={'item' + (active ? ' active' : '')}
                 draggable="true"
             >
-                <header className="item-header">
-                    <span className="item-header-title"> 🟣 {title}</span>
-                </header>
-                <main className="item-content">{content}</main>
+                {
+                    editable==null?
+                    <div>
+                    <header className="item-header">
+                        <span className="item-header-title"> 🟣 {title}</span>
+                    </header>
+                    <main className="item-content">{content}</main>
+                    </div>
+                    :
+                    <div className="item-editer">
+                       <textarea className="item-note-textarea" name="note" required="" autofocus="true" aria-label="Enter a note"  data-input-max-length="1024" data-warning-length="99"  placeholder="Enter a note"></textarea>
+                       <div>
+                        <button className="btn-primary" type="button">ok</button> 
+                        <button className="btn-blue" type="button">cancel</button>
+                       </div>
+                    </div>
+                }
             </div>
         );
     }
