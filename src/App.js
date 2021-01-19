@@ -35,10 +35,26 @@ let tasks = [{
   title: '┑(￣Д ￣)┍',
 }]
 
+var conn;
+
 class  App extends React.Component {
   state = {
       tasks: tasks,
       activeId: null
+  }
+  componentDidMount = () => {
+    conn = new WebSocket("ws://localhost:8080/app/ws");
+    conn.onopen = (evt) => {
+      console.log(evt)
+    }
+
+    conn.onclose = function (evt) {
+      console.log(evt)
+    }
+    conn.onmessage = function (evt) {
+        var messages = evt.data
+        console.log(messages)
+    }
   }
 
   addNote = (status) => {
