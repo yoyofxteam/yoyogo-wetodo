@@ -13,8 +13,8 @@ class  App extends React.Component {
   conn = null
 
   componentDidMount = () => {
-    this.conn = new WebSocket("ws://localhost:8080/app/v1/hub/ws");
-    fetch('http://localhost:8080/app/v1/hub/gettodolist', {
+    this.conn = new WebSocket("ws://" + global.constants.DOMAIN +"/app/v1/hub/ws");
+    fetch('http://' + global.constants.DOMAIN +'/app/v1/hub/gettodolist', {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -80,7 +80,7 @@ class  App extends React.Component {
         if (task.status !== status) {
             task.status = status;
             let strTasks = JSON.stringify(tasks)
-            fetch('http://localhost:8080/app/v1/hub/posttodosync', {
+            fetch('http://' + global.constants.DOMAIN +'/app/v1/hub/posttodosync', {
               method:'POST',
               headers: {
                 'Content-Type': 'application/json',

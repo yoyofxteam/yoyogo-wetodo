@@ -11,5 +11,7 @@ global.constants = {
     STATUS_TESTING: 'Testing',
     STATUS_DONE: 'DONE',
     STATUS_NOTPROCESSING: 'Not Process'
-   }
+   },
+
+   DOMAIN: 'localhost:8080'
 }
