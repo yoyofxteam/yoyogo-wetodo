@@ -75,10 +75,17 @@ class  App extends React.Component {
     this.state.tasks[e.id].content = e.content
     // eslint-disable-next-line
     this.state.tasks[e.id].editable = false
-    console.log(this.state.tasks[e.id])
-    this.setState({
-      tasks: this.state.tasks
-    })
+  
+    // this.setState({
+    //   tasks: this.state.tasks
+    // })
+
+    let strTasks = JSON.stringify(this.state.tasks)
+    this.syncTasks(strTasks)
+          .then(data => console.log(data))
+          .then(e => this.conn.send(strTasks))
+          .then(e => this.setState({ tasks: this.state.tasks }) )
+
     this.isAddtion = false
   }
 
@@ -115,21 +122,11 @@ class  App extends React.Component {
         if (task.status !== status) {
             task.status = status;
             let strTasks = JSON.stringify(tasks)
-            fetch('https://' + global.constants.DOMAIN +'/app/v1/hub/posttodosync', {
-              method:'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: strTasks
-            })
-            .then(resp => resp.json())
-            .then(data=> console.log(data))
-            this.conn.send(strTasks)
-            this.setState({
-                tasks: tasks
-            })
-            
+            this.syncTasks(strTasks)
+                  .then(data => console.log(data))
+                  .then(e => this.conn.send(strTasks))
+                  .then(e => this.setState({ tasks: tasks }) )
+
         }
         this.cancelSelect();
     }
@@ -140,6 +137,18 @@ class  App extends React.Component {
           activeId: null
       })
   }
+
+  syncTasks =(tasks) => {
+    return fetch('https://' + global.constants.DOMAIN +'/app/v1/hub/posttodosync', {
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: tasks
+    }).then(resp =>  resp.json())
+  }
+
 ////#endregion
   
   
