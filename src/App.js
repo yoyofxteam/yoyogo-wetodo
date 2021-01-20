@@ -8,8 +8,10 @@ import './config';
 class  App extends React.Component {
   state = {
       tasks: [],
-      activeId: null
+      activeId: null,
+
   }
+  isAddtion = false
   conn = null
 
   componentDidMount = () => {
@@ -44,22 +46,56 @@ class  App extends React.Component {
 
   addNote = (status) => {
     console.log(status)
-    
-    var item = {
-      id: this.state.tasks.length ,
-      status: status,
-      content: '',
-      title: '',
-      editable: true
+    if (this.isAddtion === false) {
+      this.isAddtion = true
+      var item = {
+        id: this.state.tasks.length,
+        status: status,
+        content: '',
+        title: '',
+        editable: true
+      }
+      this.state.tasks.push(item)
+      this.setState({
+        tasks: this.state.tasks,
+        activeId: item.id
+      })
+      console.log(this.state.tasks)
     }
-    this.state.tasks.push(item)
-    this.setState({
-      tasks: this.state.tasks,
-      activeId: item.id
-    })
-    console.log(this.state.tasks)
+  }
+  
+  editNote = (e) => {
+
   }
 
+  okNote = (e) => {
+
+    console.log(e)
+
+    this.state.tasks[e.id].content = e.content
+    this.state.tasks[e.id].editable = false
+    console.log(this.state.tasks[e.id])
+    this.setState({
+      tasks: this.state.tasks
+    })
+    this.isAddtion = false
+  }
+
+  cancelNote = (e) => {
+    
+    // this.updateArrayItem(id,'editable',false)
+    console.log(this.state.tasks[e.id])
+    this.state.tasks[e.id].editable = false
+    
+    this.setState({
+      tasks: this.state.tasks
+    })
+
+    this.isAddtion = false
+  }
+
+
+//#region UI event
   onDragStart = (id) => {
       this.setState({
           activeId: id
@@ -105,7 +141,7 @@ class  App extends React.Component {
           activeId: null
       })
   }
-
+////#endregion
   
   
   render() {
@@ -113,7 +149,7 @@ class  App extends React.Component {
       let { onDragStart, cancelSelect,onActiveSelect } = this;
       return (
           <div>
-            <span className="main-title">🦄🌈 WeTodo <a  href="https://github.com/yoyofx/yoyogo">yoyofx/yoyogo</a> </span>
+            <span className="main-title">🌈 WeTodo <a  href="https://github.com/yoyofx/yoyogo">@yoyofx/yoyogo</a> </span>
             <div className="task-wrapper">
                 {
                     Object.keys(global.constants.STATUS_CODE).map(status => 
@@ -135,6 +171,8 @@ class  App extends React.Component {
                                     onDragStart={onDragStart}
                                     onDragEnd={cancelSelect}
                                     onActiveSelect={onActiveSelect}
+                                    onOK={this.okNote}
+                                    onCancel={this.cancelNote}
                                 />)
                             }
                         </TaskCol>

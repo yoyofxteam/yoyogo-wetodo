@@ -65,6 +65,10 @@ class TaskCol extends React.Component {
 }
 
 class TaskItem extends React.Component {
+    state = {
+        itemContent: this.props.content
+    }
+
     handleDragStart = (e) => {
         this.props.onDragStart(this.props.id);
     }
@@ -73,9 +77,22 @@ class TaskItem extends React.Component {
         this.props.onActiveSelect(this.props.id);
     }
 
+    handleContentChange = (e) => {
+        this.setState({
+            itemContent: e.target.value
+        })
+    }
+
+    onOk =(e)=>{
+        this.props.onOK({id:this.props.id,content:this.state.itemContent})
+    }
+
+    onCancel =(e)=>{
+        this.props.onCancel({id:this.props.id})
+    }
 
     render() {
-        let { id, title, content,editable ,active, onDragEnd } = this.props;
+        let { id,editable ,active, onDragEnd } = this.props;
         return (
             <div 
                 onDragStart={this.handleDragStart}
@@ -86,19 +103,20 @@ class TaskItem extends React.Component {
                 draggable="true"
             >
                 {
-                    editable==null?
+                    !editable?
                     <div>
                     <header className="item-header">
-                        <span className="item-header-title"> 🟣 {title}</span>
+                        <span className="item-header-title"> 🟣 Task {id} </span>
                     </header>
-                    <main className="item-content">{content}</main>
+                    <main className="item-content">{this.itemContent}</main>
                     </div>
                     :
                     <div className="item-editer">
-                       <textarea className="item-note-textarea" name="note" required="" autofocus="true" aria-label="Enter a note"  data-input-max-length="1024" data-warning-length="99"  placeholder="Enter a note"></textarea>
+                       <textarea className="item-note-textarea" name="note"   onChange={this.handleContentChange.bind(this)} required=""  
+                       autoFocus aria-label="Enter a note" maxLength="50"  placeholder="Enter a note">{this.itemContent}</textarea>
                        <div>
-                        <button className="btn-primary" type="button">ok</button> 
-                        <button className="btn-blue" type="button">cancel</button>
+                        <button className="btn-primary" type="button"  onClick={this.onOk.bind(this)}>ok</button> 
+                        <button className="btn-blue" type="button" onClick={this.onCancel.bind(this)}>cancel</button>
                        </div>
                     </div>
                 }
