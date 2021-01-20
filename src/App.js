@@ -71,8 +71,9 @@ class  App extends React.Component {
   okNote = (e) => {
 
     console.log(e)
-
+    // eslint-disable-next-line
     this.state.tasks[e.id].content = e.content
+    // eslint-disable-next-line
     this.state.tasks[e.id].editable = false
     console.log(this.state.tasks[e.id])
     this.setState({
@@ -83,7 +84,6 @@ class  App extends React.Component {
 
   cancelNote = (e) => {
    
-    var ts = this.state.tasks
     this.state.tasks.splice(e.id,1)
     this.setState({
       activeId : null,
