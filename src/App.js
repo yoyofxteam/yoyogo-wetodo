@@ -3,76 +3,61 @@ import React from 'react';
 import { TaskCol,TaskItem }  from './TaskDefine'
 import './config';
 
-let tasks = [{
-  id: 0,
-  status: global.constants.STATUS_TODO,
-  content: '每周七天阅读五次，每次阅读完要做100字的读书笔记',
-  title: '小夏',
-}, {
-  id: 1,
-  status: global.constants.STATUS_TODO,
-  content: '每周七天健身4次，每次健身时间需要大于20分钟',
-  title: '橘子🍊',
-}, {
-  id: 2,
-  status: global.constants.STATUS_TODO,
-  content: '单词*100',
-  title: '┑(￣Д ￣)┍',
-}, {
-  id: 3,
-  status: global.constants.STATUS_TODO,
-  content: '单词*150',
-  title: '┑(￣Д ￣)┍',
-}, {
-  id: 4,
-  status: global.constants.STATUS_TODO,
-  content: '单词*200',
-  title: '┑(￣Д ￣)┍',
-}, {
-  id: 5,
-  status: global.constants.STATUS_TODO,
-  content: '单词*250',
-  title: '┑(￣Д ￣)┍',
-}]
 
-var conn;
 
 class  App extends React.Component {
   state = {
-      tasks: tasks,
+      tasks: [],
       activeId: null
   }
+  conn = null
+
   componentDidMount = () => {
-    conn = new WebSocket("ws://localhost:8080/app/ws");
-    conn.onopen = (evt) => {
+    this.conn = new WebSocket("ws://localhost:8080/app/v1/hub/ws");
+    fetch('http://localhost:8080/app/v1/hub/gettodolist', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(resp =>  resp.json())
+    .then(data =>  this.setState({ tasks: data }))
+
+ 
+    this.conn.onopen = (evt) => {
       console.log(evt)
     }
 
-    conn.onclose = function (evt) {
+    this.conn.onclose = function (evt) {
       console.log(evt)
     }
-    conn.onmessage = function (evt) {
-        var messages = evt.data
-        console.log(messages)
+    let self = this
+    this.conn.onmessage = function (evt) {
+        var data = evt.data
+        var json = JSON.parse(data)
+        self.setState({
+          tasks: json
+        })
     }
+
   }
 
   addNote = (status) => {
     console.log(status)
     
     var item = {
-      id: tasks.length ,
+      id: this.state.tasks.length ,
       status: status,
       content: '',
       title: '',
       editable: true
     }
-    tasks.push(item)
+    this.state.tasks.push(item)
     this.setState({
-      tasks: tasks,
+      tasks: this.state.tasks,
       activeId: item.id
     })
-    console.log(tasks)
+    console.log(this.state.tasks)
   }
 
   onDragStart = (id) => {
@@ -94,9 +79,22 @@ class  App extends React.Component {
     if (task != null) {
         if (task.status !== status) {
             task.status = status;
+            let strTasks = JSON.stringify(tasks)
+            fetch('http://localhost:8080/app/v1/hub/posttodosync', {
+              method:'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: strTasks
+            })
+            .then(resp => resp.json())
+            .then(data=> console.log(data))
+            this.conn.send(strTasks)
             this.setState({
                 tasks: tasks
             })
+            
         }
         this.cancelSelect();
     }
