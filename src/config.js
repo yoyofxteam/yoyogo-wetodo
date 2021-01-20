@@ -13,5 +13,5 @@ global.constants = {
     STATUS_NOTPROCESSING: 'Not Process'
    },
 
-   DOMAIN: 'localhost:8080'
+   DOMAIN: 'www.yoyogo.run'
 }
