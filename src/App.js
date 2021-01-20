@@ -43,7 +43,7 @@ class  App extends React.Component {
       activeId: null
   }
   componentDidMount = () => {
-    conn = new WebSocket("ws://localhost:8080/app/ws");
+    conn = new WebSocket("ws://localhost:8080/app/v1/hub/ws");
     conn.onopen = (evt) => {
       console.log(evt)
     }
