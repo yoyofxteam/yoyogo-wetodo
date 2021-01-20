@@ -66,8 +66,10 @@ class TaskCol extends React.Component {
 
 class TaskItem extends React.Component {
     state = {
-        itemContent: this.props.content
+        itemContent: this.props.content,
+        editable: this.props.editable
     }
+    mode = 'add'  // or edit
 
     handleDragStart = (e) => {
         this.props.onDragStart(this.props.id);
@@ -83,37 +85,57 @@ class TaskItem extends React.Component {
         })
     }
 
+    onEdit = (e)=> {
+
+        this.mode = 'edit'
+
+        this.setState({
+            editable: true
+        })
+
+    }
+
     onOk =(e)=>{
-        this.props.onOK({id:this.props.id,content:this.state.itemContent})
+        e.preventDefault();
+        this.props.onOK({ id:this.props.id,content:this.state.itemContent , mode: this.mode})
+        this.setState({
+            editable: false
+        })
+        this.mode = 'add'
     }
 
     onCancel =(e)=>{
+        e.preventDefault();
         this.props.onCancel({id:this.props.id})
+        this.setState({
+            editable: false
+        })
+        this.mode = 'add'
     }
 
     render() {
-        let { id,editable ,active, onDragEnd } = this.props;
+        let { id,content ,active, onDragEnd } = this.props;
         return (
             <div 
+                onDoubleClick={this.onEdit.bind(this)}
                 onDragStart={this.handleDragStart}
                 onDragEnd={onDragEnd}
                 onClick={this.onActiveSelect}
                 id={`item-${id}`} 
                 className={'item' + (active ? ' active' : '')}
-                draggable="true"
-            >
+                draggable="true" >
                 {
-                    !editable?
+                    !this.state.editable?
                     <div>
                     <header className="item-header">
                         <span className="item-header-title"> 🟣 Task {id} </span>
                     </header>
-                    <main className="item-content">{this.itemContent}</main>
+                    <main className="item-content">{content}</main>
                     </div>
                     :
                     <div className="item-editer">
-                       <textarea className="item-note-textarea" name="note"   onChange={this.handleContentChange.bind(this)} required=""  
-                       autoFocus aria-label="Enter a note" maxLength="50"  placeholder="Enter a note">{this.itemContent}</textarea>
+                       <textarea className="item-note-textarea" name="note" value={this.state.itemContent} onChange={this.handleContentChange.bind(this)} required=""  
+                       autoFocus aria-label="Enter a note" maxLength="50"  placeholder="Enter a note"></textarea>
                        <div>
                         <button className="btn-primary" type="button"  onClick={this.onOk.bind(this)}>ok</button> 
                         <button className="btn-blue" type="button" onClick={this.onCancel.bind(this)}>cancel</button>

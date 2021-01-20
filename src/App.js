@@ -82,13 +82,12 @@ class  App extends React.Component {
   }
 
   cancelNote = (e) => {
-    
-    // this.updateArrayItem(id,'editable',false)
-    console.log(this.state.tasks[e.id])
-    this.state.tasks[e.id].editable = false
-    
+   
+    var ts = this.state.tasks
+    this.state.tasks.splice(e.id,1)
     this.setState({
-      tasks: this.state.tasks
+      activeId : null,
+      tasks:  this.state.tasks
     })
 
     this.isAddtion = false
@@ -158,7 +157,7 @@ class  App extends React.Component {
                             key={status} 
                             addNote={this.addNote}
                             dragTo={this.dragTo}
-                            canDragIn={activeId != null && tasks[activeId].status !== status}>
+                            canDragIn={activeId != null}>
                             { tasks.filter(t => t.status === status).map(t => 
                                 <TaskItem
                                     key={t.id}
