@@ -5,6 +5,10 @@ USER 0
 # Modify timezone
 ENV TZ=Asia/Shanghai
 
+# aliyun mirror
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
+    sed -i 's http://.*.debian.org http://mirrors.aliyun.com g' /etc/apt/sources.list
+
 RUN apt-get update; \
     apt-get install -y \
         vim \
@@ -13,9 +17,7 @@ RUN apt-get update; \
         rm -rf /var/lib/apt/lists/*
 
 
-# aliyun mirror
-RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak; \
-    sed -i 's http://.*.debian.org http://mirrors.aliyun.com g' /etc/apt/sources.list
+
     
 
 COPY build/ /usr/share/nginx/html/
