@@ -106,7 +106,7 @@ class TaskItem extends React.Component {
 
     onCancel =(e)=>{
         e.preventDefault();
-        this.props.onCancel({id:this.props.id})
+        this.props.onCancel({id:this.props.id, mode: this.mode})
         this.setState({
             editable: false
         })

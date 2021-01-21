@@ -69,16 +69,11 @@ class  App extends React.Component {
   }
 
   okNote = (e) => {
-
     console.log(e)
     // eslint-disable-next-line
     this.state.tasks[e.id].content = e.content
     // eslint-disable-next-line
     this.state.tasks[e.id].editable = false
-  
-    // this.setState({
-    //   tasks: this.state.tasks
-    // })
 
     let strTasks = JSON.stringify(this.state.tasks)
     this.syncTasks(strTasks)
@@ -90,12 +85,13 @@ class  App extends React.Component {
   }
 
   cancelNote = (e) => {
-   
-    this.state.tasks.splice(e.id,1)
-    this.setState({
-      activeId : null,
-      tasks:  this.state.tasks
-    })
+    if (e.mode === 'add') {
+      this.state.tasks.splice(e.id, 1)
+      this.setState({
+        activeId: null,
+        tasks: this.state.tasks
+      })
+    }
 
     this.isAddtion = false
   }
