@@ -170,7 +170,6 @@ class  App extends React.Component {
                                     id={t.id}
                                     editable={t.editable}
                                     content={t.content} 
-                                    point={t.point} 
                                     title={t.title}
                                     onDragStart={onDragStart}
                                     onDragEnd={cancelSelect}
