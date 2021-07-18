@@ -1,6 +1,10 @@
 ## 项目为react前端,需要配合后端使用
 https://github.com/yoyofx/yoyogo/tree/master/examples/wetodohub
 
+![](https://github.com/yoyofx/yoyogo/raw/master/examples/wetodohub/run.png)
+
+支持拖拽，编辑等操作。
+
 # Install this React App
 
 ## 淘宝源
